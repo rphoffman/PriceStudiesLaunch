@@ -30,7 +30,7 @@ ADD *.py /opt/stocks/
 ADD ./aws/*.py /opt/stocks/aws/ 
 ADD ./database/*.py /opt/stocks/database/
 ENV STOCK_DIR="/opt/stocks"
-ENV STOCK_EXEC_SCRIPT="/opt/stocks/PriceTargetLaunch.py"
+ENV STOCK_EXEC_SCRIPT="/opt/stocks/PriceStudiesLaunch.py"
 ADD run.sh /usr/local/bin/run.sh
 RUN chmod +x /usr/local/bin/run.sh
 
