@@ -16,9 +16,12 @@ class PriceStudiesLaunch:
         self.regionName = self.ECSConfig['RegionName']
         self.AppConfig = self.config.getAppConfig()
         self.maxNbrOfRunningTasks = self.AppConfig['MaxNbrOfRunningTasks']
-        self.extractExecution = 'TargetPrice'
+        self.extractExecution = self.AppConfig['ExtractExecution']
         self.limit = self.AppConfig['Limit']
         self.nbrOfDaysToUpdate = self.AppConfig['NbrOfDaysToUpdate']
+        self.year = self.AppConfig['Year']
+        self.dailyPriceKinesisStream = self.AppConfig['DailyPriceKinesisStream']
+        self.priceStudiesKinesisStream = self.AppConfig['PriceStudiesKinesisStream']
         self.session = Session()
         self.client = self.session.client(service_name='ecs', region_name=self.regionName)
         self.doPreviousPrice = True
@@ -172,7 +175,7 @@ class PriceStudiesLaunch:
         securityGroups = self.ECSConfig['SecurityGroups']
         assignPublicIp = self.ECSConfig['AssignPublicIp']
         environment = self.ECSConfig['EnvironmentVariables']
-        taskGroup = 'multi-symbol-DailyPrice-launch'
+        taskGroup = 'multi-symbol-' + self.extractExecution + '-launch'
 
         symbols = self.getSymbolList()
         maxSymbolsPerTask = math.ceil((len(symbols)/self.maxNbrOfRunningTasks))
@@ -189,11 +192,14 @@ class PriceStudiesLaunch:
             command = []
             command.append('fromSymbol=' + lanchSymbols[0])
             command.append('toSymbol=' + lanchSymbols[len(lanchSymbols)-1])
-            command.append('extractExecution=' + self.extractExecution)
-            command.append('limit=' + str(self.limit))
-            command.append('nbrOfDaysToUpdate=' + str(self.nbrOfDaysToUpdate))
+            command.append('ExtractExecution=' + self.extractExecution)
+            command.append('Limit=' + str(self.limit))
+            command.append('NbrOfDaysToUpdate=' + str(self.nbrOfDaysToUpdate))
             command.append('doPreviousPrice=' + str(self.doPreviousPrice))
-            startedBy = lanchSymbols[0] + "-" + lanchSymbols[len(lanchSymbols)-1] + "_daily_price_launch" 
+            command.append('year=' + str(self.year))
+            command.append('dailyPriceKinesisStream=' + self.dailyPriceKinesisStream)
+            command.append('priceStudiesKinesisStream=' + self.priceStudiesKinesisStream)
+            startedBy = lanchSymbols[0] + "-" + lanchSymbols[len(lanchSymbols)-1] + "_price_studies_launch" 
             self.submitTask(clusterName=clusterName, taskDef=taskDef, taskGroup=taskGroup, containerName=containerName, subnets=subnets, securityGroups=securityGroups, assignPublicIp=assignPublicIp, command=command, environment=environment, startedBy=startedBy, retries=0)
             nbrOfTasksLaunched += 1
             symbolcnt += len(lanchSymbols)
