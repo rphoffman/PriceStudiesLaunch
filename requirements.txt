@@ -1,0 +1,8 @@
+mock
+astroid==2.3.0
+tables
+pandas
+numpy
+pymysql
+requests
+boto3
