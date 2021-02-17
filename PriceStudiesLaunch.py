@@ -192,9 +192,9 @@ class PriceStudiesLaunch:
             command = []
             command.append('fromSymbol=' + lanchSymbols[0])
             command.append('toSymbol=' + lanchSymbols[len(lanchSymbols)-1])
-            command.append('ExtractExecution=' + self.extractExecution)
-            command.append('Limit=' + str(self.limit))
-            command.append('NbrOfDaysToUpdate=' + str(self.nbrOfDaysToUpdate))
+            command.append('extractExecution=' + self.extractExecution)
+            command.append('limit=' + str(self.limit))
+            command.append('nbrOfDaysToUpdate=' + str(self.nbrOfDaysToUpdate))
             command.append('doPreviousPrice=' + str(self.doPreviousPrice))
             command.append('year=' + str(self.year))
             command.append('dailyPriceKinesisStream=' + self.dailyPriceKinesisStream)
