@@ -206,10 +206,10 @@ if __name__ == "__main__":
     test = False
     startTime = int(time.time() * 1000)
     if test:
-        os.environ['ApplicationId'] = 'nawkh32'
-        os.environ['ConfigurationProfileId'] = 'jtmybnr'
+        os.environ['ApplicationId'] = '6c5vgye'
+        os.environ['ConfigurationProfileId'] = 'jj8i0nl'
         os.environ['RegionName'] = 'us-east-1'
-
+        
     ApplicationId = os.getenv("ApplicationId")
     ConfigurationProfileId = os.getenv("ConfigurationProfileId")
     RegionName = os.getenv("RegionName")
@@ -218,4 +218,3 @@ if __name__ == "__main__":
     endTime = int(time.time() * 1000)
     print("action=PriceTargetLaunch , state=launchAllSymbols_completed , stockCount=" + str(stocks_count) +
           " , nbrOfTasksLaunched=" + str(nbrOfTasksLaunched) + " , duration=" + str((endTime - startTime)/1000))
-
